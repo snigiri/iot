@@ -1,10 +1,10 @@
 #!/bin/bash
 USERNAME=admin
-PASSWORD=students
-DOMEN=my.domen.ru
+PASSWORD=alexs1234
+DOMEN=gb.ru
 ORG=IoT
 BUCKET=IoT
-INFLUXDB_TOKEN="kFhczFje8dRm2SXK1V9Ds7xpcJTr6wVUS881KQoUQWE-QAfcg-S-6j1FvFiSvWW0wTPlmWHCvXf_JU1hRx5rZg=="
+INFLUXDB_TOKEN="P5AgAduLX1t8O5ZHvlykrGgbwKyiY2mlqYOTq5QFFVmWfIIVsiaXLbRy_fa77j0JV5JChNsoVgqoNanXHw3EQg=="
 
 LOC_IP=$(ip route get 1 | awk '{print $7}' | head -1)
 PUB_IP=$(wget -qO- ifconfig.me)
@@ -168,8 +168,8 @@ cat > ~/telegraf/conf/telegraf.conf <<EOF
  flush_interval = "3s"
  flush_jitter = "0s"
  precision = ""
- hostname = ""
- omit_hostname = false
+ hostname = "telegraf"
+ omit_hostname = true
 
 [[outputs.influxdb_v2]]
   urls = ["http://$LOC_IP:8086"]
@@ -298,7 +298,7 @@ networks:
   telegraf-net:
 EOF
 
-docker compose -f docker-compose.yml up -d
+docker compose -f ~/docker-compose.yml up -d
 clear
 echo "ПАРАМЕТРЫ ДЛЯ ЛОКАЛЬНОГО ПОДКЛЮЧЕНИЯ
 Grafana http://$LOC_IP:$(docker ps -f name=grafana --format '{{.Ports}}' | cut -d ':' -f 2 | cut -d '-' -f 1)
