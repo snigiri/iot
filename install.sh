@@ -1,10 +1,10 @@
 #!/bin/bash
 USERNAME=admin
-PASSWORD=alexs1234
-DOMEN=gb.ru
+PASSWORD=students
+DOMEN=my.domen.ru
 ORG=IoT
 BUCKET=IoT
-INFLUXDB_TOKEN="aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYy=="
+INFLUXDB_TOKEN="kFhczFje8dRm2SXK1V9Ds7xpcJTr6wVUS881KQoUQWE-QAfcg-S-6j1FvFiSvWW0wTPlmWHCvXf_JU1hRx5rZg=="
 
 LOC_IP=$(ip route get 1 | awk '{print $7}' | head -1)
 PUB_IP=$(wget -qO- ifconfig.me)
@@ -20,7 +20,7 @@ if [ -z "$DOCKER_VERSION" ] || [ "$(echo $DOCKER_VERSION | cut -d '.' -f1)" -lt 
 
     # Устанавливаем необходимые пакеты
     sudo apt-get update
-    sudo apt-get -y install ca-certificates wget curl gnupg 
+    sudo apt-get -y install ca-certificates wget curl gnupg catimg
 
     # Устанавливаем ключи и добавляем репозиторий Docker
     sudo install -m 0755 -d /etc/apt/keyrings
@@ -191,7 +191,6 @@ cat > ~/telegraf/conf/telegraf.conf <<EOF
 EOF
 
 cat > ~/docker-compose.yml <<EOF
-version: "2"
 services:
   influxdb:
     container_name: influxdb
@@ -299,7 +298,7 @@ networks:
   telegraf-net:
 EOF
 
-docker compose -f ~/docker-compose.yml up -d
+docker compose -f docker-compose.yml up -d
 clear
 echo "ПАРАМЕТРЫ ДЛЯ ЛОКАЛЬНОГО ПОДКЛЮЧЕНИЯ
 Grafana http://$LOC_IP:$(docker ps -f name=grafana --format '{{.Ports}}' | cut -d ':' -f 2 | cut -d '-' -f 1)
